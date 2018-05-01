@@ -1,26 +1,28 @@
 const Sequelize = require('sequelize');
 
+let container = {};
 class SequelizeContainer {
-  static get(config) {
-    if (config.sequelize) {
-      return config.sequelize;
+  static get(db_config) {
+    let ident = String(db_config.host) + ':' + String(db_config.database);
+    if (container[ident]) {
+      return container[ident];
     }
-    config.sequelize = new Sequelize(config.db.database, config.db.user, config.db.password, {
-      host: config.db.host || process.env.MYSQL_PORT_3306_TCP_ADDR || 'mysql',
+    container[ident] = new Sequelize(db_config.database, db_config.user, db_config.password, {
+      host: db_config.host || process.env.MYSQL_PORT_3306_TCP_ADDR || 'mysql',
       pool: {
         maxConnections: 10,
         maxIdleTime: 30
       },
       dialect: 'mysql',
-      logging: config.db.logging || process.env.VERBOSE ? console.log : false,
+      logging: db_config.logging || process.env.VERBOSE ? console.log : false,
       dialectOptions: {
         charset: 'utf8mb4',
         collate: 'utf8mb4_unicode_ci',
-        ssl: config.db.ssl ? 'Amazon RDS': false,
+        ssl: db_config.ssl ? 'Amazon RDS': false,
       },
     });
-    config.sequelize.table = {}; // sequelizeのテーブルオブジェクトを保持
-    return config.sequelize;
+    container[ident].table = {}; // sequelizeのテーブルオブジェクトを保持
+    return container[ident];
   }
 }
 module.exports = SequelizeContainer;
