@@ -1,0 +1,10 @@
+{
+  "name": "sequelize_container",
+  "version": "1.0.0",
+  "main": "sequelize_container.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/verybestjp/sequelize_container.git"
+  },
+  "license": "MIT"
+}
