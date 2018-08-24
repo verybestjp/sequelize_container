@@ -15,9 +15,9 @@ class SequelizeContainer {
       },
       retry: {
         match: [
-          Sequelize.ConnectionError
+          /getaddrinfo EAI_AGAIN/
         ],
-        max: 5,
+        max: 2,
       },
       dialect: 'mysql',
       logging: db_config.logging || process.env.VERBOSE ? console.log : false,
