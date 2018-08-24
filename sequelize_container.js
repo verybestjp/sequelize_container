@@ -13,6 +13,12 @@ class SequelizeContainer {
         maxConnections: 10,
         maxIdleTime: 30
       },
+      retry: {
+        match: [
+          Sequelize.ConnectionError
+        ],
+        max: 5,
+      },
       dialect: 'mysql',
       logging: db_config.logging || process.env.VERBOSE ? console.log : false,
       dialectOptions: {
