@@ -25,6 +25,11 @@ class SequelizeContainer {
         charset: 'utf8mb4',
         collate: 'utf8mb4_unicode_ci',
         ssl: db_config.ssl ? 'Amazon RDS': false,
+        // v3.28.0 から updateのaffected_rowsの挙動が変わっていて、
+        // 値の変更がない場合に0が返ってくるため、その挙動をOFFにする。
+        // https://github.com/sequelize/sequelize/issues/7184
+        // https://github.com/sequelize/sequelize/pull/7423/files
+        flags: '',
       },
     });
     container[ident].table = {}; // sequelizeのテーブルオブジェクトを保持
