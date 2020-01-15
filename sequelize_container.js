@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = (process.env.SEQUELIZE4 ? require('sequelize4') : require('sequelize'));
 
 let container = {};
 class SequelizeContainer {
