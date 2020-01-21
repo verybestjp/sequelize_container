@@ -3,8 +3,12 @@ const Sequelize = (process.env.SEQUELIZE4 ? require('sequelize4') : require('seq
 const container = {};
 
 class SequelizeContainer {
+  static getIdent(conf) {
+    return `${ conf.host }:${ conf.database }`;
+  }
+
   static get(db_config) {
-    const ident = String(db_config.host) + ':' + String(db_config.database);
+    const ident = SequelizeContainer.getIdent(db_config);
     if (container[ident]) {
       return container[ident];
     }
@@ -49,6 +53,19 @@ class SequelizeContainer {
     container[ident].table = {}; // sequelizeのテーブルオブジェクトを保持
 
     return container[ident];
+  }
+
+  /**
+   * DB接続を切断する
+   */
+  static close(conf) {
+    const ident = SequelizeContainer.getIdent(conf);
+    if (!container[ident]) {
+      return;
+    }
+
+    container[ident].close();
+    delete container[ident];
   }
 }
 module.exports = SequelizeContainer;
