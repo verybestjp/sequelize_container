@@ -10,8 +10,8 @@ class SequelizeContainer {
     container[ident] = new Sequelize(db_config.database, db_config.user, db_config.password, {
       host: db_config.host || process.env.MYSQL_PORT_3306_TCP_ADDR || 'mysql',
       pool: {
-        maxConnections: 10,
-        maxIdleTime: 30
+        maxConnections: db_config.pool_max_connections || 10,
+        maxIdleTime: db_config.pool_max_idle_time || 30000,
       },
       retry: {
         match: [
