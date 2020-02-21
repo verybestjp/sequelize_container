@@ -39,12 +39,12 @@ class SequelizeContainer {
     if (process.env.SEQUELIZE4) {
       options.pool = {
         max: db_config.pool_max_connections || 10,
-        idle: db_config.pool_max_idle_time || 10000,
+        idle: db_config.pool_max_idle_time || 5000,
       };
     } else {
       options.pool = {
         maxConnections: db_config.pool_max_connections || 10,
-        maxIdleTime: db_config.pool_max_idle_time || 10000,
+        maxIdleTime: db_config.pool_max_idle_time || 5000,
       };
     }
 
