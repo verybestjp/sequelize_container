@@ -37,14 +37,16 @@ class SequelizeContainer {
     };
 
     if (process.env.SEQUELIZE4) {
+      delete options.dialectOptions.collate;
+
       options.pool = {
-        max: db_config.pool_max_connections || 10,
-        idle: db_config.pool_max_idle_time || 5000,
+        max: db_config.pool_max_connections || 5,
+        idle: db_config.pool_max_idle_time || 10000,
       };
     } else {
       options.pool = {
-        maxConnections: db_config.pool_max_connections || 10,
-        maxIdleTime: db_config.pool_max_idle_time || 5000,
+        maxConnections: db_config.pool_max_connections || 5,
+        maxIdleTime: db_config.pool_max_idle_time || 10000,
       };
     }
 
