@@ -41,12 +41,12 @@ class SequelizeContainer {
 
       options.pool = {
         max: db_config.pool_max_connections || 5,
-        idle: db_config.pool_max_idle_time || 10000,
+        idle: db_config.pool_max_idle_time || 5000,
       };
     } else {
       options.pool = {
         maxConnections: db_config.pool_max_connections || 5,
-        maxIdleTime: db_config.pool_max_idle_time || 10000,
+        maxIdleTime: db_config.pool_max_idle_time || 5000,
       };
     }
 
