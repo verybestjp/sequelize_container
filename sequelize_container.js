@@ -19,6 +19,7 @@ class SequelizeContainer {
       },
       dialect: 'mysql',
       logging: db_config.logging || process.env.VERBOSE ? console.log : false,
+      benchmark: !!(db_config.logging || process.env.VERBOSE),
       dialectOptions: {
         charset: 'utf8mb4',
         collate: 'utf8mb4_unicode_ci',
