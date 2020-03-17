@@ -75,5 +75,23 @@ class SequelizeContainer {
     container[ident].close();
     delete container[ident];
   }
+
+  /**
+   * poolしない接続用のDB connection取得
+   */
+  static getConnection(db_config) {
+    const options = SequelizeContainer._getOption(db_config);
+    const ret = new Sequelize(db_config.database, db_config.user, db_config.password, options);
+    ret.table = {}; // sequelizeのテーブルオブジェクトを保持
+
+    return ret;
+  }
+
+  /**
+   * poolしない接続用のDB切断
+   */
+  static closeConnection(sequelize) {
+    return sequelize.close();
+  }
 }
 module.exports = SequelizeContainer;
