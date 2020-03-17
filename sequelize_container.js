@@ -7,12 +7,7 @@ class SequelizeContainer {
     return `${ conf.host }:${ conf.database }`;
   }
 
-  static get(db_config) {
-    const ident = SequelizeContainer.getIdent(db_config);
-    if (container[ident]) {
-      return container[ident];
-    }
-
+  static _getOption(db_config) {
     const options = {
       host: db_config.host || process.env.MYSQL_PORT_3306_TCP_ADDR || 'mysql',
       pool: {},
@@ -49,6 +44,17 @@ class SequelizeContainer {
         maxIdleTime: db_config.pool_max_idle_time || 5000,
       };
     }
+
+    return options;
+  }
+
+  static get(db_config) {
+    const ident = SequelizeContainer.getIdent(db_config);
+    if (container[ident]) {
+      return container[ident];
+    }
+
+    const options = SequelizeContainer._getOption(db_config);
 
     container[ident] = new Sequelize(db_config.database, db_config.user, db_config.password, options);
 
