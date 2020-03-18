@@ -4,7 +4,7 @@ const container = {};
 
 class SequelizeContainer {
   static getIdent(conf) {
-    return `${ conf.host }:${ conf.database }`;
+    return `${ conf.host }:${ conf.database }:${ conf.daemon ? '1' : '0' }`;
   }
 
   static _getOption(db_config) {
