@@ -32,7 +32,7 @@ class SequelizeContainer {
         // v4からSUMなどの集計関数の結果が文字列で返ってきてしまうため、
         // 従来通り数値で返ってくるようにする
         // @see https://github.com/sequelize/sequelize/issues/8019#issuecomment-319014433
-        decimalNumbers: true,
+        // decimalNumbers: true,
       },
     };
 
