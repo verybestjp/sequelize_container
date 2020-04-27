@@ -1,4 +1,4 @@
-const Sequelize = (process.env.SEQUELIZE4 ? require('sequelize4') : require('sequelize'));
+const Sequelize = (process.env.SEQUELIZE5 ? require('sequelize5') : require('sequelize4'));
 
 const container = {};
 
@@ -36,19 +36,12 @@ class SequelizeContainer {
       },
     };
 
-    if (process.env.SEQUELIZE4) {
-      delete options.dialectOptions.collate;
+    delete options.dialectOptions.collate;
 
-      options.pool = {
-        max: db_config.pool_max_connections || 5,
-        idle: db_config.pool_max_idle_time || 5000,
-      };
-    } else {
-      options.pool = {
-        maxConnections: db_config.pool_max_connections || 5,
-        maxIdleTime: db_config.pool_max_idle_time || 5000,
-      };
-    }
+    options.pool = {
+      max: db_config.pool_max_connections || 5,
+      idle: db_config.pool_max_idle_time || 5000,
+    };
 
     return options;
   }
