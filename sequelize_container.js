@@ -90,6 +90,26 @@ class SequelizeContainer {
 
   static get(db_config) {
     const ident = SequelizeContainer.getIdent(db_config);
+
+    if (process.env.SEQUELIZE5) {
+      if (!container[ident]) {
+        const options = SequelizeContainer._getOption(db_config);
+        const newObject = new Sequelize(db_config.database, db_config.user, db_config.password, options);
+        newObject.table = {}; // sequelizeのテーブルオブジェクトを保持
+
+        container[ident] = {};
+        ['options', 'config', 'dialect', 'queryInterface', 'connectionManager'].forEach((key) => {
+          container[ident][key] = newObject[key];
+        });
+
+        if (!SequelizeContainer.object) {
+          SequelizeContainer.object = newObject;
+        }
+      }
+      Object.assign(SequelizeContainer.object, container[ident]);
+      return SequelizeContainer.object;
+    }
+
     if (container[ident]) {
       return container[ident];
     }
@@ -134,4 +154,10 @@ class SequelizeContainer {
     return sequelize.close();
   }
 }
+
+// Sequelizeオブジェクト
+SequelizeContainer.lib = Sequelize;
+
+SequelizeContainer.object = null;
+
 module.exports = SequelizeContainer;
