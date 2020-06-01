@@ -1,4 +1,4 @@
-const Sequelize = (process.env.SEQUELIZE5 ? require('sequelize5') : require('sequelize4'));
+const Sequelize = require('sequelize5');
 
 // TODO: operatorsAliasesを削除
 const Op = Sequelize.Op;
@@ -42,6 +42,10 @@ const operatorsAliases = {
 const container = {};
 
 class SequelizeContainer {
+  static get lib() {
+    return Sequelize;
+  }
+
   static getIdent(conf) {
     return `${ conf.host }:${ conf.database }`;
   }
