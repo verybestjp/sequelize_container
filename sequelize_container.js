@@ -78,9 +78,7 @@ class SequelizeContainer {
         decimalNumbers: true,
       },
     };
-    if (process.env.SEQUELIZE5) {
-      options.operatorsAliases = operatorsAliases;
-    }
+    options.operatorsAliases = operatorsAliases;
 
     delete options.dialectOptions.collate;
 
