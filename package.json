@@ -6,5 +6,9 @@
     "type": "git",
     "url": "git+https://github.com/verybestjp/sequelize_container.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "mysql2": "^2.1.0",
+    "sequelize5": "git+https://github.com/verybestjp/sequelize.git#v5"
+  }
 }
