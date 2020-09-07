@@ -100,7 +100,14 @@ class SequelizeContainer {
 
     container[ident] = new Sequelize(db_config.database, db_config.user, db_config.password, options);
 
-    container[ident].table = {}; // sequelizeのテーブルオブジェクトを保持
+    // sequelizeのテーブルオブジェクトを保持
+    container[ident].table = {};
+
+    // 読み込みが完了しているテーブル定義のディレクトリ
+    container[ident].loaded_dir = {};
+
+    // 読み込みが完了していないassociation
+    container[ident].association = new Map();
 
     return container[ident];
   }
