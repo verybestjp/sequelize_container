@@ -131,7 +131,15 @@ class SequelizeContainer {
   static getConnection(db_config) {
     const options = SequelizeContainer._getOption(db_config);
     const ret = new Sequelize(db_config.database, db_config.user, db_config.password, options);
-    ret.table = {}; // sequelizeのテーブルオブジェクトを保持
+
+    // sequelizeのテーブルオブジェクトを保持
+    ret.table = {};
+
+    // 読み込みが完了しているテーブル定義のディレクトリ
+    ret.loaded_dir = {};
+
+    // 読み込みが完了していないassociation
+    ret.association = new Map();
 
     return ret;
   }
