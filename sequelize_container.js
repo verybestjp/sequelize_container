@@ -65,7 +65,6 @@ class SequelizeContainer {
       benchmark: !!(db_config.logging || process.env.VERBOSE),
       dialectOptions: {
         charset: 'utf8mb4',
-        collate: 'utf8mb4_unicode_ci',
         ssl: db_config.ssl ? 'Amazon RDS': false,
         // v3.28.0 から updateのaffected_rowsの挙動が変わっていて、
         // 値の変更がない場合に0が返ってくるため、その挙動をOFFにする。
