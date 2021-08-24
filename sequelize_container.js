@@ -46,13 +46,17 @@ class SequelizeContainer {
     return Sequelize;
   }
 
-  static getIdent(conf) {
-    return `${ conf.host }:${ conf.database }`;
+  static getIdent(conf, isSlave) {
+    return `${ conf.host }:${ conf.database }:${ isSlave ? '1' : '0' }`;
   }
 
-  static _getOption(db_config) {
+  static _getOption(db_config, isSlave) {
+    let host = db_config.host;
+    if (db_config.host_slave && isSlave) {
+      host = db_config.host_slave;
+    }
     const options = {
-      host: db_config.host || process.env.MYSQL_PORT_3306_TCP_ADDR || 'mysql',
+      host: host || process.env.MYSQL_PORT_3306_TCP_ADDR || 'mysql',
       pool: {},
       retry: {
         match: [
@@ -89,13 +93,18 @@ class SequelizeContainer {
     return options;
   }
 
-  static get(db_config) {
-    const ident = SequelizeContainer.getIdent(db_config);
+  static getSlave(db_config) {
+    return SequelizeContainer.get(db_config, true);
+  }
+
+  static get(db_config, isSlave = false) {
+    const ident = SequelizeContainer.getIdent(db_config, isSlave);
     if (container[ident]) {
       return container[ident];
     }
 
-    const options = SequelizeContainer._getOption(db_config);
+    const options = SequelizeContainer._getOption(db_config, isSlave);
+
 
     container[ident] = new Sequelize(db_config.database, db_config.user, db_config.password, options);
 
