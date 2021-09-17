@@ -126,11 +126,12 @@ class SequelizeContainer {
   static close(conf) {
     const ident = SequelizeContainer.getIdent(conf);
     if (!container[ident]) {
-      return;
+      return Promise.resolve();
     }
 
-    container[ident].close();
-    delete container[ident];
+    return container[ident].close().then(() => {
+      delete container[ident];
+    });
   }
 
   /**
