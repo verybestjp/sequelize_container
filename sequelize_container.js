@@ -67,6 +67,7 @@ class SequelizeContainer {
       dialect: 'mysql',
       logging: dbConfig.logging || process.env.VERBOSE ? console.log : false,
       benchmark: !!(dbConfig.logging || process.env.VERBOSE),
+      operatorsAliases: operatorsAliases,
       dialectOptions: {
         charset: 'utf8mb4',
         ssl: dbConfig.ssl ? 'Amazon RDS': false,
@@ -80,14 +81,10 @@ class SequelizeContainer {
         // @see https://github.com/sequelize/sequelize/issues/8019#issuecomment-319014433
         decimalNumbers: true,
       },
-    };
-    options.operatorsAliases = operatorsAliases;
-
-    delete options.dialectOptions.collate;
-
-    options.pool = {
-      max: dbConfig.pool_max_connections || 5,
-      idle: dbConfig.pool_max_idle_time || 5000,
+      pool: {
+        max: dbConfig.pool_max_connections || 5,
+        idle: dbConfig.pool_max_idle_time || 5000,
+      },
     };
 
     return options;
