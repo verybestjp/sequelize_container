@@ -50,10 +50,10 @@ class SequelizeContainer {
     return `${ conf.host }:${ conf.database }:${ isSlave ? '1' : '0' }`;
   }
 
-  static _getOption(db_config, isSlave) {
-    let host = db_config.host;
-    if (db_config.host_slave && isSlave) {
-      host = db_config.host_slave;
+  static _getOption(dbConfig, isSlave) {
+    let host = dbConfig.host;
+    if (dbConfig.host_slave && isSlave) {
+      host = dbConfig.host_slave;
     }
     const options = {
       host: host || process.env.MYSQL_PORT_3306_TCP_ADDR || 'mysql',
@@ -65,11 +65,11 @@ class SequelizeContainer {
         max: 2,
       },
       dialect: 'mysql',
-      logging: db_config.logging || process.env.VERBOSE ? console.log : false,
-      benchmark: !!(db_config.logging || process.env.VERBOSE),
+      logging: dbConfig.logging || process.env.VERBOSE ? console.log : false,
+      benchmark: !!(dbConfig.logging || process.env.VERBOSE),
       dialectOptions: {
         charset: 'utf8mb4',
-        ssl: db_config.ssl ? 'Amazon RDS': false,
+        ssl: dbConfig.ssl ? 'Amazon RDS': false,
         // v3.28.0 から updateのaffected_rowsの挙動が変わっていて、
         // 値の変更がない場合に0が返ってくるため、その挙動をOFFにする。
         // https://github.com/sequelize/sequelize/issues/7184
@@ -86,27 +86,27 @@ class SequelizeContainer {
     delete options.dialectOptions.collate;
 
     options.pool = {
-      max: db_config.pool_max_connections || 5,
-      idle: db_config.pool_max_idle_time || 5000,
+      max: dbConfig.pool_max_connections || 5,
+      idle: dbConfig.pool_max_idle_time || 5000,
     };
 
     return options;
   }
 
-  static getSlave(db_config) {
-    return SequelizeContainer.get(db_config, true);
+  static getSlave(dbConfig) {
+    return SequelizeContainer.get(dbConfig, true);
   }
 
-  static get(db_config, isSlave = false) {
-    const ident = SequelizeContainer.getIdent(db_config, isSlave);
+  static get(dbConfig, isSlave = false) {
+    const ident = SequelizeContainer.getIdent(dbConfig, isSlave);
     if (container[ident]) {
       return container[ident];
     }
 
-    const options = SequelizeContainer._getOption(db_config, isSlave);
+    const options = SequelizeContainer._getOption(dbConfig, isSlave);
 
 
-    container[ident] = new Sequelize(db_config.database, db_config.user, db_config.password, options);
+    container[ident] = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, options);
 
     // sequelizeのテーブルオブジェクトを保持
     container[ident].table = {};
@@ -137,9 +137,9 @@ class SequelizeContainer {
   /**
    * poolしない接続用のDB connection取得
    */
-  static getConnection(db_config) {
-    const options = SequelizeContainer._getOption(db_config);
-    const ret = new Sequelize(db_config.database, db_config.user, db_config.password, options);
+  static getConnection(dbConfig) {
+    const options = SequelizeContainer._getOption(dbConfig);
+    const ret = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, options);
 
     // sequelizeのテーブルオブジェクトを保持
     ret.table = {};
