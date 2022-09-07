@@ -1,4 +1,4 @@
-const Sequelize = (process.env.SEQUELIZE6 ? require('sequelize') : require('sequelize5'));
+const Sequelize = require('sequelize');
 
 // TODO: operatorsAliasesを削除
 const Op = Sequelize.Op;
