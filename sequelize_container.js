@@ -82,7 +82,7 @@ class SequelizeContainer {
         decimalNumbers: true,
       },
       pool: {
-        max: dbConfig.max ?? 5, // 利用者数が多い事務所は20に設定する
+        max: dbConfig.max ?? 20, // 利用者数が多い事務所は20に設定する
         idle: 5000,
         acquire: 10000,
         // evict はデフォルトの1000 msec
