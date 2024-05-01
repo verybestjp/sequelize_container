@@ -52,7 +52,14 @@ class SequelizeContainer {
 
   static _getOption(dbConfig, isSlave) {
     let host = dbConfig.host;
-    if (dbConfig.host_slave && isSlave) {
+    let dialect = 'mysql';
+    let logging = dbConfig.logging || process.env.VERBOSE ? console.log : false;
+    if (process.env.DB_DIALECT === 'sqlite') {
+      // unittest の DB は SQLite を使用
+      host = 'localhost';
+      dialect = 'sqlite';
+      logging = false;
+    } else if (dbConfig.host_slave && isSlave) {
       host = dbConfig.host_slave;
     }
     const options = {
@@ -64,8 +71,8 @@ class SequelizeContainer {
         ],
         max: 2,
       },
-      dialect: 'mysql',
-      logging: dbConfig.logging || process.env.VERBOSE ? console.log : false,
+      dialect: dialect,
+      logging: logging,
       benchmark: !!(dbConfig.logging || process.env.VERBOSE),
       operatorsAliases: operatorsAliases,
       dialectOptions: {
