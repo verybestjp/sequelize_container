@@ -8,6 +8,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "sequelize": "^6.37.3"
+    "moment": "git+https://git@github.com/verybestjp/moment.git",
+    "moment-timezone": "git+https://git@github.com/verybestjp/moment-timezone.git",
+    "sequelize": "^6.37.7"
   }
 }
