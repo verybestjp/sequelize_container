@@ -87,6 +87,8 @@ class SequelizeContainer {
         // 従来通り数値で返ってくるようにする
         // @see https://github.com/sequelize/sequelize/issues/8019#issuecomment-319014433
         decimalNumbers: true,
+        // @see https://github.com/sequelize/sequelize/issues/10832#issuecomment-523089771
+        maxPreparedStatements: 300,
       },
       pool: {
         max: dbConfig.max ?? 20, // 利用者数が多い事務所は20に設定する
