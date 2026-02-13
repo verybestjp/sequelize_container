@@ -58,7 +58,7 @@ class SequelizeContainer {
       // unittest の DB は SQLite を使用
       host = 'localhost';
       dialect = 'sqlite';
-      logging = false;
+      logging = process.env.VERBOSE ? console.log : false;
     } else if (dbConfig.host_slave && isSlave) {
       host = dbConfig.host_slave;
     }
