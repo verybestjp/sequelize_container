@@ -87,7 +87,6 @@ class SequelizeContainer {
         // 従来通り数値で返ってくるようにする
         // @see https://github.com/sequelize/sequelize/issues/8019#issuecomment-319014433
         decimalNumbers: true,
-        // CPU負荷軽減のためプリペアドステートメント数を制限する
         // dbConfig.maxPreparedStatements で環境ごとに調整可能（未設定時は 300）
         // @see https://github.com/sequelize/sequelize/issues/10832#issuecomment-523089771
         maxPreparedStatements: dbConfig.maxPreparedStatements ?? 300,
