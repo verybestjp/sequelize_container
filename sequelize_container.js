@@ -47,7 +47,7 @@ class SequelizeContainer {
   }
 
   static getIdent(conf, isSlave) {
-    return `${ conf.host }:${ conf.database }:${ isSlave ? '1' : '0' }`;
+    return `${ conf.host }:${ conf.database }:${ conf.host_slave && isSlave ? '1' : '0' }`;
   }
 
   static _getOption(dbConfig, isSlave) {
